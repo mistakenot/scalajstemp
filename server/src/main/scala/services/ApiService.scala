@@ -21,7 +21,7 @@ class ApiService extends Api {
     todos
   }
 
-  // update a Todo
+  
   override def updateTodo(item: TodoItem): Seq[TodoItem] = {
     // TODO, update database etc :)
     if(todos.exists(_.id == item.id)) {

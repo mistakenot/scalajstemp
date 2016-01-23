@@ -8,6 +8,7 @@ import diode.react.ReactConnector
 import spatutorial.shared.{TodoItem, Api}
 import boopickle.Default._
 import scala.scalajs.concurrent.JSExecutionContext.Implicits.runNow
+import spatutorial.models._
 
 // Actions
 case object RefreshTodos
@@ -23,7 +24,9 @@ case class UpdateMotd(value: Pot[String] = Empty) extends PotAction[String, Upda
 }
 
 // The base model of our application
-case class RootModel(todos: Pot[Todos], motd: Pot[String])
+case class RootModel(todos: Pot[Todos], motd: Pot[String], search: SearchModel)
+
+case class SearchModel(results: Seq[SearchResult])
 
 case class Todos(items: Seq[TodoItem]) {
   def updated(newItem: TodoItem) = {
@@ -78,7 +81,7 @@ class MotdHandler[M](modelRW: ModelRW[M, Pot[String]]) extends ActionHandler(mod
 // Application circuit
 object SPACircuit extends Circuit[RootModel] with ReactConnector[RootModel] {
   // initial application model
-  override protected var model = RootModel(Empty, Empty)
+  override protected var model = RootModel(Empty, Empty, SearchModel(Seq()))
   // combine all handlers into one
   override protected val actionHandler = combineHandlers(
     new TodoHandler(zoomRW(_.todos)((m, v) => m.copy(todos = v))),

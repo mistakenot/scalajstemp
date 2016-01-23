@@ -66,4 +66,10 @@ class BootstrapStyles(implicit r: mutable.Register) extends StyleSheet.Inline()(
 
   val formGroup = styleWrap("form-group")
   val formControl = styleWrap("form-control")
+
+  val inputGroup = styleWrap("input-group")
+  val inputGroupBtn = styleWrap("input-group-btn")
+
+  val row = styleWrap("row")
+  def col(size: Int) = styleWrap(s"col-md-$size")
 }
